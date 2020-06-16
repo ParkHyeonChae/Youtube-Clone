@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
+import Axios from 'axios';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -47,12 +47,26 @@ function VideoUploadPage() {
         }
         formData.append("file", files[0])
 
-        axios.post('/api/video/uploadfiles', formData, config)
+        Axios.post('/api/video/uploadfiles', formData, config)
             .then(response => {
                 if(response.data.success) {
 
+                    let variable = {
+                        url:response.data.url,
+                        fileName: response.data.fileName
+                    }
+
+                    Axios.post('/api/video/thumbnail', variable)
+                    .then(response => {
+                        if(response.data.success) {
+                            console.log(response.data)
+                        } else {
+                            alert('Created Thumbnail Failed...')
+                        }
+                    })
+
                 } else {
-                    alert('비디오 업로드를 실패했습니다.')
+                    alert('Video Upload Failed...')
                 }
             })
     }
