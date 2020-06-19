@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//const { Video } = require("../models/Video");
+const { Video } = require("../models/Video");
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
@@ -41,6 +41,12 @@ router.post('/uploadfiles', (req, res) => {
         }
         return res.json({ success: true, url: res.req.file.path, fileName:  res.req.file.filename })
     })
+})
+
+
+router.post('/api/video/uploadVideo', (req, res) => {
+    // 몽고 디비에 비디오 정보 저장
+    
 })
 
 
