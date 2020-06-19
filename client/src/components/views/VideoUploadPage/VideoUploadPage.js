@@ -19,7 +19,7 @@ const CategoryOptions = [
     {value: 3, label: "Pets & Animals" },
 ]
 
-function VideoUploadPage() {
+function VideoUploadPage(props) {
 
     const user = useSelector(state => state.user); // state에 가서 user정보를 가져옴 
     const [VideoTitle, setVideoTitle] = useState("")
@@ -79,7 +79,7 @@ function VideoUploadPage() {
             })
     }
 
-    const onSubmit = (e) => {
+    const onSumit = (e) => {
         e.preventDefault();
 
         const variables = {
@@ -96,6 +96,11 @@ function VideoUploadPage() {
         Axios.post('/api/video/uploadVideo', variables)
             .then(response => {
                 if(response.data.success) {
+                    message.success('Video Upload Success!!')
+
+                    setTimeout(() => {
+                        props.history.push('/')
+                    }, 3000);
 
                 } else {
                     alert('Video Upload Failed...')
@@ -110,7 +115,7 @@ function VideoUploadPage() {
                 <Title level={2}>Upload Video</Title>
             </div>
 
-            <Form onSubmit={onSumbit}>
+            <Form onSubmit={onSumit}>
                 <div style={{ display:'flex', justifyContent:'space-between' }}>
                     {/* Drop zone */}
 
@@ -175,7 +180,7 @@ function VideoUploadPage() {
                 <br />            
                 <br /> 
 
-                <Button type="primary" size="large" onClick={onSubmit}>
+                <Button type="primary" size="large" onClick={onSumit}>
                     Submit
                 </Button>
 
