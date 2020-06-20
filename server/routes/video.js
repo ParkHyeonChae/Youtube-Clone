@@ -56,6 +56,18 @@ router.post('/uploadVideo', (req, res) => {
 })
 
 
+router.get('/getVideos', (req, res) => {
+    // 비디오를 몽고 디비에서 가져와서 클리이언트에 뿌리기
+
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if(err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos })
+        })
+})
+
+
 router.post("/thumbnail", (req, res) => {
     // 썸네일 생성하고 비디오 info 가져오기
     
