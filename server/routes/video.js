@@ -56,6 +56,17 @@ router.post('/uploadVideo', (req, res) => {
 })
 
 
+router.post('/getVideoDetail', (req, res) => {
+    
+    Video.findOne({ "_id": req.body.videoId })
+        .populate('writer') // populate로 모든 data 가져옴
+        .exec((err, videoDetail) => {
+            if(err) return res.status(400).send(err)
+            return res.status(200).json({ success: true, videoDetail })
+        })
+})
+
+
 router.get('/getVideos', (req, res) => {
     // 비디오를 몽고 디비에서 가져와서 클리이언트에 뿌리기
 
