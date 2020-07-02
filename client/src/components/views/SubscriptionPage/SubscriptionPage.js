@@ -12,7 +12,11 @@ function SubscriptionPage() {
 
     useEffect(() => {
 
-        Axios.get('/api/video/getVideos')
+        const subscriptionVariables = {
+            userFrom : localStorage.getItem('userId')
+        }
+
+        Axios.post('/api/video/getSubscriptionVideos', subscriptionVariables)
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data)
