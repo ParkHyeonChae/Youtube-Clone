@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
+import SingleComment from './SingleComment';
 
 
 function Comment(props) {
@@ -40,6 +41,13 @@ function Comment(props) {
             <hr />
 
             {/* Comment Lists */}
+
+            {props.commentLists && props.commentLists.map((comment, index) => (
+                (!comment.responseTo && 
+                    // 답글은 responseTo 가 없는것만 출력
+                    <SingleComment comment={comment} postId={videoId}/>
+                )
+            ))}
 
             {/* Root Comment Form */}
 

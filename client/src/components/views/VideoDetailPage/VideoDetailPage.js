@@ -12,6 +12,7 @@ function VideoDetailPage(props) {
     const variable = { videoId: videoId }
 
     const [VideoDetail, setVideoDetail] = useState([])
+    const [Comments, setComments] = useState([])
 
     useEffect(() => {
         
@@ -23,6 +24,17 @@ function VideoDetailPage(props) {
                     alert('Get Video Data Failed...')
                 }
             })
+
+        Axios.post('/api/comment/getComments', variable) // 모든 Comments Data
+            .then(response => {
+                if(response.data.success) {
+                    setComments(response.data.comments)
+                } else {
+                    alert('Failed Comments Data...')
+                }
+            })
+
+        
     }, [])
 
     if(VideoDetail.writer) {
@@ -48,7 +60,7 @@ function VideoDetailPage(props) {
                     </List.Item>
     
                     {/* Comments */}
-                    <Comment postId={videoId}/>
+                    <Comment commentLists={Comments} postId={videoId}/>
     
                 </div>
                 
