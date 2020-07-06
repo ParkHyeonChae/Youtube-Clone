@@ -33,6 +33,8 @@ function SingleComment(props) {
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data.result)
+                    setCommentValue("") // submit 후 textarea 비우기
+                    props.refreshFunction(response.data.result)
                 } else {
                     alert('Failed Comment Save...')
                 }

@@ -37,6 +37,10 @@ function VideoDetailPage(props) {
         
     }, [])
 
+    const refreshFunction = (newComment) => {
+        setComments(Comments.concat(newComment)) // props로 뿌려준 하위컴포넌트에서 comment를 계속 받아와서 state에 담음
+    }
+
     if(VideoDetail.writer) {
         
         const subscribeButton = VideoDetail.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />
@@ -60,7 +64,7 @@ function VideoDetailPage(props) {
                     </List.Item>
     
                     {/* Comments */}
-                    <Comment commentLists={Comments} postId={videoId}/>
+                    <Comment refreshFunction={refreshFunction} commentLists={Comments} postId={videoId}/>
     
                 </div>
                 

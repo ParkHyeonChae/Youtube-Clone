@@ -27,6 +27,8 @@ function Comment(props) {
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data.result)
+                    setcommentValue("") // submit 후 textarea 비우기
+                    props.refreshFunction(response.data.result)
                 } else {
                     alert('Failed Comment Save...')
                 }
@@ -45,7 +47,7 @@ function Comment(props) {
             {props.commentLists && props.commentLists.map((comment, index) => (
                 (!comment.responseTo && 
                     // 답글은 responseTo 가 없는것만 출력
-                    <SingleComment comment={comment} postId={videoId}/>
+                    <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId}/>
                 )
             ))}
 
