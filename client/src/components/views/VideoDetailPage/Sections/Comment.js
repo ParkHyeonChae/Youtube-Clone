@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment'
 
 
 function Comment(props) {
@@ -47,8 +48,11 @@ function Comment(props) {
             {props.commentLists && props.commentLists.map((comment, index) => (
                 (!comment.responseTo && 
                     // 답글은 responseTo 가 없는것만 출력
-                    <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId}/>
-                )
+                    <React.Fragment>
+                        <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId}/>
+                        <ReplyComment parentCommentId={comment._id} commentLists={props.commentLists} postId={videoId}/>
+                    </React.Fragment>
+                    )
             ))}
 
             {/* Root Comment Form */}
