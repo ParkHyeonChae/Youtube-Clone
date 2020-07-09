@@ -19,7 +19,7 @@ function ReplyComment(props) {
 
         setChildCommentNumber(commentNumber)
         
-    }, [])
+    }, [props.commentLists]) // props.commentLists가 바뀔때마다 useEffect를 재 실행
 
     const renderReplyComment = (parentCommentId) => 
         props.commentLists.map((comment, index) => (
@@ -28,7 +28,7 @@ function ReplyComment(props) {
                     comment.responseTo === parentCommentId &&
                     <div style={{ width: '80%', marginLeft: '40px' }}>
                         <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={props.videoId} />
-                        <ReplyComment parentCommentId={comment._id} commentLists={props.commentLists} postId={props.videoId} />
+                        <ReplyComment refreshFunction={props.refreshFunction} parentCommentId={comment._id} commentLists={props.commentLists} postId={props.videoId} />
                     </div>
                 }
             </React.Fragment>

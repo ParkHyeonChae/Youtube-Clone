@@ -34,6 +34,7 @@ function SingleComment(props) {
                 if(response.data.success) {
                     console.log(response.data.result)
                     setCommentValue("") // submit 후 textarea 비우기
+                    setOpenReply(false) // 답글 단 후 답글 입력창 지우기
                     props.refreshFunction(response.data.result)
                 } else {
                     alert('Failed Comment Save...')
