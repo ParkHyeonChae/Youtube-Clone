@@ -16,7 +16,7 @@ function SingleComment(props) {
     }
 
     const onHandleChange = (event) => {
-        setCommentValue(event.currentTarget.CommentValue)
+        setCommentValue(event.currentTarget.value)
     }
 
     const onSubmit = (event) => {
@@ -52,7 +52,7 @@ function SingleComment(props) {
                 author={props.comment.writer.name}
                 avatar={<Avatar src={props.comment.writer.image} alt />}
                 content={<p>{props.comment.content}</p>}
-            />
+            ></Comment>
 
             {OpenReply &&
                 <form style={{ display: 'flex' }} onSubmit={onSubmit}>

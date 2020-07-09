@@ -5,6 +5,7 @@ import SingleComment from './SingleComment';
 function ReplyComment(props) {
 
     const [ChildCommentNumber, setChildCommentNumber] = useState(0)
+    const [OpenReplyComments, setOpenReplyComments] = useState(false)
     useEffect(() => {
 
         let commentNumber = 0;
@@ -20,29 +21,34 @@ function ReplyComment(props) {
         
     }, [])
 
-    const renderReplyComment = (parentCommentId) => {
+    const renderReplyComment = (parentCommentId) => 
         props.commentLists.map((comment, index) => (
             <React.Fragment>
                 {
                     comment.responseTo === parentCommentId &&
-                    <div>
+                    <div style={{ width: '80%', marginLeft: '40px' }}>
                         <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={props.videoId} />
-                        <ReplyComment parentCommentId={comment._id} commentLists={props.commentLists}  postId={props.videoId} />
+                        <ReplyComment parentCommentId={comment._id} commentLists={props.commentLists} postId={props.videoId} />
                     </div>
                 }
             </React.Fragment>
         ))
+
+    const onHandleChange = () => {
+        setOpenReplyComments(!OpenReplyComments)
     }
 
     return (
         <div>
             {ChildCommentNumber > 0 &&
-                <p style={{ fontSize: '14px', margin: 0, color: 'gray' }} onClick>
-                    View 1 more comment(s)
+                <p style={{ fontSize: '14px', margin: 0, color: 'gray' }} onClick={onHandleChange}>
+                    View {ChildCommentNumber} more comment(s)
                 </p>
             }
 
-            {renderReplyComment(props.parentCommentId)}
+            {OpenReplyComments &&
+                renderReplyComment(props.parentCommentId)
+            }
 
         </div>
     )

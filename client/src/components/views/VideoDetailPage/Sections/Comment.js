@@ -49,8 +49,8 @@ function Comment(props) {
                 (!comment.responseTo && 
                     // 답글은 responseTo 가 없는것만 출력
                     <React.Fragment>
-                        <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId}/>
-                        <ReplyComment parentCommentId={comment._id} commentLists={props.commentLists} postId={videoId}/>
+                        <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId} />
+                        <ReplyComment parentCommentId={comment._id} commentLists={props.commentLists} postId={videoId} refreshFunction={props.refreshFunction} />
                     </React.Fragment>
                     )
             ))}
