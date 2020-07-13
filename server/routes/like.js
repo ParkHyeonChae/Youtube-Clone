@@ -53,9 +53,9 @@ router.post('/upLike', (req, res) => {
     let variable = {}
 
     if(req.body.videoId) {
-        variable = { videoId: req.body.videoId }
+        variable = { videoId: req.body.videoId, userId: req.body.userId }
     } else {
-        variable = { commentId: req.body.commentId }
+        variable = { commentId: req.body.commentId, userId: req.body.userId }
     }
 
     // Like collection에다 클릭 정보를 넣어줌
@@ -65,7 +65,7 @@ router.post('/upLike', (req, res) => {
         if(err) return res.json({ success: false, err })
 
         // Dislike이 이미 클릭 되있다면, Dislike를 1 줄여줌
-        Dislike.findByIdAndDelete(variable)
+        Dislike.findOneAndDelete(variable)
             .exec((err, disLikeResult) => {
                 if(err) return res.json({ success: false, err })
                 res.status(200).json({ success: true })
@@ -80,17 +80,63 @@ router.post('/unLike', (req, res) => {
     let variable = {}
 
     if(req.body.videoId) {
-        variable = { videoId: req.body.videoId }
+        variable = { videoId: req.body.videoId, userId: req.body.userId }
     } else {
-        variable = { commentId: req.body.commentId }
+        variable = { commentId: req.body.commentId, userId: req.body.userId }
     }
 
-    Like.findByIdAndDelete(variable)
+    Like.findOneAndDelete(variable)
         .exec((err, result) => {
             if(err) return res.status(400).json({ success: false, err })
             res.status(200).json({ success: true })
         })
 
+});
+
+
+router.post('/unDisLike', (req, res) => {
+   
+    let variable = {}
+
+    if(req.body.videoId) {
+        variable = { videoId: req.body.videoId, userId: req.body.userId }
+    } else {
+        variable = { commentId: req.body.commentId, userId: req.body.userId }
+    }
+
+    Dislike.findOneAndDelete(variable)
+        .exec((err, result) => {
+            if(err) return res.status(400).json({ success: false, err })
+            res.status(200).json({ success: true })
+        })
+
+});
+
+
+router.post('/upDislike', (req, res) => {
+   
+    let variable = {}
+
+    if(req.body.videoId) {
+        variable = { videoId: req.body.videoId, userId: req.body.userId }
+    } else {
+        variable = { commentId: req.body.commentId, userId: req.body.userId }
+    }
+
+    // DisLike collection에다 클릭 정보를 넣어줌
+    const dislike = new Dislike(variable)
+
+    dislike.save((err, dislikeResult) => {
+        if(err) return res.json({ success: false, err })
+
+        // Like이 이미 클릭 되있다면, Dislike를 1 줄여줌
+        Like.findOneAndDelete(variable)
+            .exec((err, likeResult) => {
+                if(err) return res.json({ success: false, err })
+                res.status(200).json({ success: true })
+            })
+    })
+    
 });
 
 
