@@ -58,13 +58,48 @@ function LikeDislikes(props) {
             })
     }, [])
 
+    const onLike = () => {
+
+        if(LikeAction === null) { // like 버튼이 클릭이 안 되있을 때
+            Axios.post('/api/like/upLike', variable)
+                .then(response => {
+                    if(response.data.success) {
+
+                        setLikes(Likes + 1)
+                        setLikeAction('liked')
+                        
+                        if(DislikeAction !== null) {
+                            setDislikeAction(null)
+                            setDislikes(Dislikes -1)
+                        }
+
+                    } else {
+                        alert('Failed Up Like...')
+                    }
+                })
+        } else {
+            Axios.post('/api/like/unLike', variable)
+                .then(response => {
+                    if(response.data.success) {
+
+                        setLikes(Likes - 1)
+                        setLikeAction(null)
+
+                    } else {
+                        alert('Failed Down Like...')
+                    }
+                })
+        }
+
+    }
+
     return (
         <div>
             <span key="comment-basic-like">
                 <Tooltip title="Like">
                     <Icon type="like"
                         thema={LikeAction === 'liked' ? 'filled' : 'outlined'}
-                        onClick
+                        onClick={onLike}
                     />
                 </Tooltip>
                 <span style={{ paddingLeft: '8px', cursor:'auto' }}> {Likes} </span>
